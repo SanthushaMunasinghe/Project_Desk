@@ -1,0 +1,23 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "project desk backend.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SanthushaMunasinghe/Project_Desk.git"
+  },
+  "author": "Santhusha Munasinghe",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SanthushaMunasinghe/Project_Desk/issues"
+  },
+  "homepage": "https://github.com/SanthushaMunasinghe/Project_Desk#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^6.8.3"
+  }
+}
