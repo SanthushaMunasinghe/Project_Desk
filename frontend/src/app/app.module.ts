@@ -11,10 +11,15 @@ import { UserDashboardComponent } from './user-dashboard/user-dashboard.componen
 import { CreateProjectFormComponent } from './create-project-form/create-project-form.component';
 import { ProjectPageComponent } from './project-page/project-page.component';
 import { MessagePageComponent } from './message-page/message-page.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FooterComponent } from './footer/footer.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
+import { ProjectCardComponent } from './project-card/project-card.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent },
   { path: 'login', component: LoginPageComponent },
+  { path: 'signup', component: SignUpComponent },
   { path: 'dashboard', component: UserDashboardComponent },
   { path: 'create', component: CreateProjectFormComponent },
   { path: 'project', component: ProjectPageComponent },
@@ -30,8 +35,16 @@ const routes: Routes = [
     CreateProjectFormComponent,
     ProjectPageComponent,
     MessagePageComponent,
+    FooterComponent,
+    SignUpComponent,
+    ProjectCardComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, RouterModule.forRoot(routes)],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    RouterModule.forRoot(routes),
+    FontAwesomeModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

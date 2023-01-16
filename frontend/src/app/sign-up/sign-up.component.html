@@ -33,31 +33,25 @@
       <div class="card-body">
         <form>
           <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label"
-              >Email address</label
-            >
+            <label for="email" class="form-label">Email address</label>
             <input
               type="email"
               class="form-control"
-              id="exampleInputEmail1"
               aria-describedby="emailHelp"
             />
           </div>
           <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label"
-              >Password</label
+            <label for="password" class="form-label"
+              >Password
+              <span style="color: #777"
+                >(Password should be 8-16 characters)</span
+              ></label
             >
-            <input
-              type="password"
-              class="form-control"
-              id="exampleInputPassword1"
-            />
+            <input type="password" class="form-control" />
           </div>
           <div class="mb-3">
-            <a href="/signup" class="nav-link"
-              >Don't have account?
-              <span style="color: #16a085">Click Here</span></a
-            >
+            <label for="password" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" />
           </div>
           <div style="display: grid; place-items: center">
             <button type="submit" class="btn btn-dark" style="width: 200px">
