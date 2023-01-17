@@ -14,7 +14,7 @@
 >
   <div
     class="container"
-    style="display: grid; grid-template-columns: 2fr 1fr; grid-gap: 20px"
+    style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 20px"
   >
     <div class="card text-bg-light mb-3">
       <div class="card-body">
@@ -44,17 +44,25 @@
         </form>
       </div>
     </div>
-    <div class="card text-bg-light mb-3" style="max-width: 18rem">
-      <div class="card-header"><h4>Members</h4></div>
+    <div class="card text-bg-light mb-3">
+      <div class="card-header">
+        <h4>Members</h4>
+        <h6>(10)</h6>
+      </div>
       <div class="card-body">
         <ul class="list-group">
-          <li class="list-group-item">
-            <p style="display: block">santhushamunasinghe601@gmail.com</p>
-            <button class="btn btn-danger">Remove</button>
-          </li>
+          <app-add-member></app-add-member>
+          <app-add-member></app-add-member>
+          <app-add-member></app-add-member>
+          <app-add-member></app-add-member>
+          <app-add-member></app-add-member>
+          <app-add-member></app-add-member>
+          <app-add-member></app-add-member>
+          <app-add-member></app-add-member>
+          <app-add-member></app-add-member>
+          <app-add-member></app-add-member>
         </ul>
       </div>
     </div>
   </div>
 </section>
-<app-footer style="position: fixed; bottom: 0; width: 100%"></app-footer>

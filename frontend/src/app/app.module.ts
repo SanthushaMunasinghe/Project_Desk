@@ -15,6 +15,12 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FooterComponent } from './footer/footer.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { ProjectCardComponent } from './project-card/project-card.component';
+import { AddMemberComponent } from './add-member/add-member.component';
+import { ProjectNavbarComponent } from './project-navbar/project-navbar.component';
+import { ProjectTaskComponent } from './project-task/project-task.component';
+import { ProjectEditComponent } from './project-edit/project-edit.component';
+import { ProjectEditFormComponent } from './project-edit-form/project-edit-form.component';
+import { ProjectTaskEditComponent } from './project-task-edit/project-task-edit.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent },
@@ -23,7 +29,7 @@ const routes: Routes = [
   { path: 'dashboard', component: UserDashboardComponent },
   { path: 'create', component: CreateProjectFormComponent },
   { path: 'project', component: ProjectPageComponent },
-  { path: 'message', component: MessagePageComponent },
+  { path: 'edit', component: ProjectEditComponent },
 ];
 
 @NgModule({
@@ -38,6 +44,12 @@ const routes: Routes = [
     FooterComponent,
     SignUpComponent,
     ProjectCardComponent,
+    AddMemberComponent,
+    ProjectNavbarComponent,
+    ProjectTaskComponent,
+    ProjectEditComponent,
+    ProjectEditFormComponent,
+    ProjectTaskEditComponent,
   ],
   imports: [
     BrowserModule,
