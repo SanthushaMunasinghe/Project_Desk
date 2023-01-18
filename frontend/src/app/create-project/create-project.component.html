@@ -1,0 +1,59 @@
+<app-user-navbar></app-user-navbar>
+<section
+  class="bg-dark text-light p-5 p-lg-0 pt-lg-5 text-center text-sm-start"
+  style="width: 100%; height: 100%; position: absolute; left: 0; margin: 0"
+>
+  <div
+    class="container"
+    style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 20px"
+  >
+    <div class="card text-bg-light mb-3">
+      <div class="card-body">
+        <form>
+          <div class="mb-3">
+            <label for="project-title" class="form-label">Project Title</label>
+            <input type="text" class="form-control" />
+          </div>
+          <div class="mb-3">
+            <label for="project-description" class="form-label"
+              >Project Description</label
+            >
+            <textarea class="form-control" maxlength="128"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="members" class="form-label">Add Members</label>
+            <div style="display: flex; gap: 20px">
+              <input type="email" class="form-control" />
+              <button class="btn btn-dark">Add</button>
+            </div>
+          </div>
+          <div style="display: grid; place-items: center">
+            <button type="submit" class="btn btn-dark" style="width: 200px">
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="card text-bg-light mb-3">
+      <div class="card-header">
+        <h4>Members</h4>
+        <h6>(10)</h6>
+      </div>
+      <div class="card-body">
+        <ul class="list-group">
+          <app-add-member></app-add-member>
+          <app-add-member></app-add-member>
+          <app-add-member></app-add-member>
+          <app-add-member></app-add-member>
+          <app-add-member></app-add-member>
+          <app-add-member></app-add-member>
+          <app-add-member></app-add-member>
+          <app-add-member></app-add-member>
+          <app-add-member></app-add-member>
+          <app-add-member></app-add-member>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,1 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
+.bg-green {
+  background-color: #16a085;
+}
+
+body::before {
+  display: block;
+  content: "";
+  height: 60px;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+
+@media (min-width: 768px) {
+  .news-input {
+    width: 50%;
+  }
+}

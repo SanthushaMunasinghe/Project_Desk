@@ -4,15 +4,45 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { LoginPageComponent } from './login-page/login-page.component';
+import { ProjectPageComponent } from './project-page/project-page.component';
+import { SignUpPageComponent } from './sign-up-page/sign-up-page.component';
+import { ProjectEditPageComponent } from './project-edit-page/project-edit-page.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { CreateProjectComponent } from './create-project/create-project.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ProjectCardComponent } from './components/project-card/project-card.component';
+import { UserNavbarComponent } from './components/user-navbar/user-navbar.component';
+import { ProjectTaskComponent } from './components/project-task/project-task.component';
+import { MessageComponent } from './components/message/message.component';
+import { ProjectTaskEditComponent } from './components/project-task-edit/project-task-edit.component';
+import { CreateTaskComponent } from './components/create-task/create-task.component';
+import { AddMemberComponent } from './components/add-member/add-member.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LandingPageComponent
+    LandingPageComponent,
+    LoginPageComponent,
+    ProjectPageComponent,
+    SignUpPageComponent,
+    ProjectEditPageComponent,
+    DashboardComponent,
+    CreateProjectComponent,
+    FooterComponent,
+    ProjectCardComponent,
+    UserNavbarComponent,
+    ProjectTaskComponent,
+    MessageComponent,
+    ProjectTaskEditComponent,
+    CreateTaskComponent,
+    AddMemberComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

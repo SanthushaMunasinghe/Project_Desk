@@ -1,0 +1,72 @@
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark py-3 fixed-top bg-green">
+  <div class="container">
+    <a href="/" class="navbar-brand"
+      ><h4 class="text-white">
+        <span class="text-black">Project</span> Desk
+      </h4></a
+    >
+  </div>
+</nav>
+<section
+  class="bg-dark text-light p-5 p-lg-0 pt-lg-5 text-center text-sm-start"
+  style="
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+  "
+>
+  <div class="container">
+    <div
+      class="card text-bg-light mb-3"
+      style="
+        width: 30%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      "
+    >
+      <div class="card-body">
+        <form>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label"
+              >Email address</label
+            >
+            <input
+              type="email"
+              class="form-control"
+              id="exampleInputEmail1"
+              aria-describedby="emailHelp"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label"
+              >Password</label
+            >
+            <input
+              type="password"
+              class="form-control"
+              id="exampleInputPassword1"
+            />
+          </div>
+          <div class="mb-3">
+            <a href="/signup" class="nav-link"
+              >Don't have account?
+              <span style="color: #16a085">Click Here</span></a
+            >
+          </div>
+          <div style="display: grid; place-items: center">
+            <button type="submit" class="btn btn-dark" style="width: 200px">
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+<app-footer style="position: fixed; bottom: 0; width: 100%"></app-footer>

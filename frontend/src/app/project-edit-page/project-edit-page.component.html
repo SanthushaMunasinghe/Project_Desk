@@ -1,0 +1,43 @@
+<app-user-navbar></app-user-navbar>
+<section
+  class="bg-dark text-light p-5 p-lg-0 pt-lg-5 text-center text-sm-start"
+>
+  <div class="container">
+    <div class="d-sm-flex align-items-center justify-content-between">
+      <div
+        style="
+          margin-bottom: 20px;
+          display: grid;
+          grid-template-columns: auto 1fr;
+          gap: 20px;
+          align-items: center;
+        "
+      >
+        <fa-icon
+          [icon]="tableIcon"
+          style="font-size: 30px; margin-bottom: 5px"
+        ></fa-icon>
+        <h5>Project Title</h5>
+      </div>
+      <a href="/edit" class="btn btn-dark bg-green" style="margin-bottom: 20px"
+        >Save</a
+      >
+    </div>
+  </div>
+</section>
+<section style="margin: 2em">
+  <div
+    class="container"
+    style="display: grid; grid-template-columns: 2fr 1fr; grid-gap: 20px"
+  >
+    <div class="card bg-dark" style="padding: 1em; height: 100%; width: 100%">
+      <app-project-task-edit style="margin: 10px"></app-project-task-edit>
+      <app-project-task-edit style="margin: 10px"></app-project-task-edit>
+      <app-project-task-edit style="margin: 10px"></app-project-task-edit>
+      <app-project-task-edit style="margin: 10px"></app-project-task-edit>
+    </div>
+    <div class="card bg-dark" style="padding: 1em; height: 16rem; width: 100%">
+      <app-create-task></app-create-task>
+    </div>
+  </div>
+</section>
