@@ -31,13 +31,14 @@
       "
     >
       <div class="card-body">
-        <form>
+        <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
           <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
             <input
               type="email"
               class="form-control"
               aria-describedby="emailHelp"
+              formControlName="email"
             />
           </div>
           <div class="mb-3">
@@ -47,11 +48,24 @@
                 >(Password should be 8-16 characters)</span
               ></label
             >
-            <input type="password" class="form-control" />
+            <input
+              type="password"
+              class="form-control"
+              formControlName="password"
+            />
           </div>
           <div class="mb-3">
             <label for="password" class="form-label">Confirm Password</label>
-            <input type="password" class="form-control" />
+            <input
+              type="password"
+              class="form-control"
+              formControlName="passwordConfirmed"
+            />
+          </div>
+          <div class="mb-3">
+            <p class="text-danger" *ngFor="let err of signupErrors">
+              {{ err }}
+            </p>
           </div>
           <div style="display: grid; place-items: center">
             <button type="submit" class="btn btn-dark" style="width: 200px">

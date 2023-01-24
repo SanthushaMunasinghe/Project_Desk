@@ -31,7 +31,7 @@
       "
     >
       <div class="card-body">
-        <form>
+        <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label"
               >Email address</label
@@ -41,6 +41,7 @@
               class="form-control"
               id="exampleInputEmail1"
               aria-describedby="emailHelp"
+              formControlName="email"
             />
           </div>
           <div class="mb-3">
@@ -50,7 +51,7 @@
             <input
               type="password"
               class="form-control"
-              id="exampleInputPassword1"
+              formControlName="password"
             />
           </div>
           <div class="mb-3">
@@ -58,6 +59,11 @@
               >Don't have account?
               <span style="color: #16a085">Click Here</span></a
             >
+          </div>
+          <div class="mb-3">
+            <p class="text-danger" *ngFor="let err of signupErrors">
+              {{ err }}
+            </p>
           </div>
           <div style="display: grid; place-items: center">
             <button type="submit" class="btn btn-dark" style="width: 200px">
