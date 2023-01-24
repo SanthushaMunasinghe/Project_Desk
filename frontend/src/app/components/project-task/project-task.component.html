@@ -1,16 +1,15 @@
 <div class="card text-bg-light mb-3" style="height: 100%; width: 100%">
   <div
     class="card-header"
-    style="display: grid; grid-template-columns: 5fr 1fr"
+    style="display: grid; grid-template-columns: 4fr 1fr"
   >
-    <p>Task1</p>
-    <p>Status: Done</p>
+    <p>Task {{ taskIndex }}</p>
+    <p>Status: {{ taskStatus }}</p>
   </div>
   <div class="card-body">
-    <h5 class="card-title">Task Title</h5>
+    <h5 class="card-title">{{ taskTitle }}</h5>
     <p class="card-text">
-      Task Description text to build on the card title and make up the bulk of
-      the card's content.
+      {{ taskDescription }}
     </p>
     <div class="mb-3">
       <label for="formFile" class="form-label">Upload File</label>

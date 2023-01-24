@@ -1,43 +1,17 @@
-<app-user-navbar></app-user-navbar>
-<section
-  class="bg-dark text-light p-5 p-lg-0 pt-lg-5 text-center text-sm-start"
->
-  <div class="container">
-    <div class="d-sm-flex align-items-center justify-content-between">
-      <div
-        style="
-          margin-bottom: 20px;
-          display: grid;
-          grid-template-columns: auto 1fr;
-          gap: 20px;
-          align-items: center;
-        "
-      >
-        <fa-icon
-          [icon]="tableIcon"
-          style="font-size: 30px; margin-bottom: 5px"
-        ></fa-icon>
-        <h5>Dashboard</h5>
-      </div>
-      <a
-        href="/create"
-        class="btn btn-dark bg-green"
-        style="margin-bottom: 20px"
-        >Create New</a
-      >
-    </div>
-  </div>
-</section>
+<app-user-navbar
+  [emailTxt]="userEmail"
+  [headingTxt]="'Dashboard'"
+></app-user-navbar>
 <section class="p-5">
   <div
     class="container"
     style="display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 20px"
   >
-    <app-project-card></app-project-card>
-    <app-project-card></app-project-card>
-    <app-project-card></app-project-card>
-    <app-project-card></app-project-card>
-    <app-project-card></app-project-card>
-    <app-project-card></app-project-card>
+    <app-project-card
+      *ngFor="let project of projects"
+      [projectTitle]="project.title"
+      [projectDescription]="project.description"
+      [projectMemberCount]="project.memberCount"
+    ></app-project-card>
   </div>
 </section>

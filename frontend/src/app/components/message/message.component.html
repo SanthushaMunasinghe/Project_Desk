@@ -16,6 +16,12 @@
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur,
           temporibus.
         </p>
+        <div
+          style="display: grid; grid-template-columns: 1fr 2fr; font-size: 10px"
+        >
+          <p>user_1</p>
+          <p>19.1.2023 10.44 pm</p>
+        </div>
       </div>
     </div>
     <div
@@ -28,6 +34,12 @@
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur,
           temporibus.
         </p>
+        <div
+          style="display: grid; grid-template-columns: 1fr 2fr; font-size: 10px"
+        >
+          <p>user_1</p>
+          <p>19.1.2023 10.44 pm</p>
+        </div>
       </div>
     </div>
   </div>
@@ -39,6 +51,8 @@
       placeholder="Type Your Message"
       class="form-control"
     />
-    <button class="btn btn-light">Send</button>
+    <button class="btn btn-dark" style="margin-left: 5px">
+      <fa-icon [icon]="sendIcon"></fa-icon>
+    </button>
   </form>
 </div>

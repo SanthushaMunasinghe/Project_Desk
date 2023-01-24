@@ -3,14 +3,13 @@
     class="card-header"
     style="display: grid; grid-template-columns: 5fr 1fr"
   >
-    <p>Task1</p>
+    <p>Task {{ taskIndex }}</p>
     <button class="btn btn-danger">Remove</button>
   </div>
   <div class="card-body">
-    <h5 class="card-title">Task Title</h5>
+    <h5 class="card-title">{{ taskTitle }}</h5>
     <p class="card-text">
-      Task Description text to build on the card title and make up the bulk of
-      the card's content.
+      {{ taskDescription }}
     </p>
   </div>
 </div>

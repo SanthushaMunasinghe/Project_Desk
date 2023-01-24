@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { faCircleUser } from '@fortawesome/free-regular-svg-icons';
-
-const userEmail = 'santhusha@gmail.com';
+import { faTable } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-user-navbar',
@@ -11,5 +10,9 @@ const userEmail = 'santhusha@gmail.com';
 })
 export class UserNavbarComponent {
   userIcon = faCircleUser;
-  emailTxt: string = userEmail;
+  tableIcon = faTable;
+
+  @Input() headingTxt: string = '';
+
+  @Input() emailTxt: string = '';
 }
