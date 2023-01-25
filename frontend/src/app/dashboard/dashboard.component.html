@@ -1,17 +1,41 @@
 <app-user-navbar
   [emailTxt]="userEmail"
   [headingTxt]="'Dashboard'"
+  [id]="userId"
+  [btnTxt]="'Create New'"
 ></app-user-navbar>
 <section class="p-5">
   <div
     class="container"
-    style="display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 20px"
+    style="display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 20px"
   >
-    <app-project-card
-      *ngFor="let project of projects"
-      [projectTitle]="project.title"
-      [projectDescription]="project.description"
-      [projectMemberCount]="project.memberCount"
-    ></app-project-card>
+    <div
+      style="
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 20px;
+      "
+    >
+      <app-project-card
+        *ngFor="let project of projects"
+        [projectTitle]="project.title"
+        [projectDescription]="project.description"
+        [projectMemberCount]="project.memberCount"
+      ></app-project-card>
+    </div>
+    <div
+      style="
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 20px;
+      "
+    >
+      <app-project-card
+        *ngFor="let project of projects"
+        [projectTitle]="project.title"
+        [projectDescription]="project.description"
+        [projectMemberCount]="project.memberCount"
+      ></app-project-card>
+    </div>
   </div>
 </section>

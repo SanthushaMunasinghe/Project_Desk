@@ -46,10 +46,10 @@
         <h5>{{ headingTxt }}</h5>
       </div>
       <a
-        href="/create"
+        [routerLink]="['/create', id]"
         class="btn btn-dark bg-green"
         style="margin-bottom: 20px"
-        >Create New</a
+        >{{ btnTxt }}</a
       >
     </div>
   </div>

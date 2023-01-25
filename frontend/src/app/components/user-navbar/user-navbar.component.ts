@@ -15,4 +15,8 @@ export class UserNavbarComponent {
   @Input() headingTxt: string = '';
 
   @Input() emailTxt: string = '';
+
+  @Input() id: string = '';
+
+  @Input() btnTxt: string = '';
 }

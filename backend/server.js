@@ -30,6 +30,20 @@ app.get("/", (req, res) => {
   res.send("Server is running");
 });
 
+//Get User email
+app.get("/api/users/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+    } else {
+      res.status(200).json({ email: user.email });
+    }
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
 //Get User
 app.post("/api/login", async (req, res) => {
   try {

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 import { faTable } from '@fortawesome/free-solid-svg-icons';
 
@@ -6,6 +8,11 @@ interface Project {
   title: string;
   description: string;
   memberCount: string;
+}
+
+interface UserResponse {
+  user: any;
+  email: string;
 }
 
 const DUMMY_ProjectS: Project[] = [
@@ -37,5 +44,22 @@ const DUMMY_ProjectS: Project[] = [
 export class DashboardComponent {
   tableIcon = faTable;
   projects: Project[] = DUMMY_ProjectS;
-  userEmail: string = 'santhusha@gmail.com';
+  userEmail: string = '';
+  userId: string = '';
+
+  constructor(private route: ActivatedRoute, private http: HttpClient) {}
+
+  ngOnInit() {
+    const userId = this.route.snapshot.paramMap.get('id');
+    this.userId = userId != null ? userId : this.userId;
+    this.http.get<UserResponse>(`/api/users/${userId}`).subscribe(
+      (res) => {
+        console.log(res);
+        this.userEmail = res.email;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
 }
