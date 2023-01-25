@@ -23,6 +23,7 @@ import { MessageComponent } from './components/message/message.component';
 import { ProjectTaskEditComponent } from './components/project-task-edit/project-task-edit.component';
 import { CreateTaskComponent } from './components/create-task/create-task.component';
 import { AddMemberComponent } from './components/add-member/add-member.component';
+import { MemberComponent } from './components/member/member.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { AddMemberComponent } from './components/add-member/add-member.component
     ProjectTaskEditComponent,
     CreateTaskComponent,
     AddMemberComponent,
+    MemberComponent,
   ],
   imports: [
     BrowserModule,

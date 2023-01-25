@@ -1,14 +1,26 @@
-<li
-  class="list-group-item"
-  style="
-    display: grid;
-    grid-template-columns: 4fr 1fr;
-    margin-top: 5px;
-    padding-bottom: 0;
-  "
->
-  <p>santhushamunasinghe601@gmail.com</p>
-  <button class="btn btn-danger" style="height: 30px; padding: 0">
-    Remove
-  </button>
-</li>
+<div class="card-header">
+  <h4>Members</h4>
+  <h6>(10)</h6>
+</div>
+<div class="card-body">
+  <form [formGroup]="addEmailForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <p class="text-danger" *ngFor="let err of findErrors">
+        {{ err }}
+      </p>
+    </div>
+    <div class="mb-3">
+      <label for="members" class="form-label">Add Members</label>
+      <div style="display: flex; gap: 20px">
+        <input type="email" class="form-control" formControlName="email" />
+        <button type="submit" class="btn btn-dark">Add</button>
+      </div>
+    </div>
+  </form>
+  <ul class="list-group">
+    <app-member
+      *ngFor="let userEmail of userEmails"
+      [userEmail]="userEmail"
+    ></app-member>
+  </ul>
+</div>

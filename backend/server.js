@@ -8,6 +8,7 @@ require("dotenv").config();
 const app = express();
 app.use(express.json());
 
+//DB Connect
 const dbLink = process.env.DB_LINK;
 
 const connectDB = async () => {
@@ -30,7 +31,7 @@ app.get("/", (req, res) => {
   res.send("Server is running");
 });
 
-//Get User email
+//Get User email by id
 app.get("/api/users/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
@@ -44,7 +45,21 @@ app.get("/api/users/:id", async (req, res) => {
   }
 });
 
-//Get User
+//Get User email by email
+app.get("/api/users/email/:email", async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.params.email });
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+    } else {
+      res.status(200).json({ email: user.email });
+    }
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+//User Login
 app.post("/api/login", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
@@ -90,6 +105,9 @@ app.post("/api/users", async (req, res) => {
   }
 });
 
+//Add New Project
+
+//Server Setup
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
