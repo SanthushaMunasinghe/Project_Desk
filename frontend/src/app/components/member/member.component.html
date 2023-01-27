@@ -8,7 +8,11 @@
   "
 >
   <p>{{ userEmail }}</p>
-  <button class="btn btn-danger" style="height: 30px; padding: 0">
+  <button
+    class="btn btn-danger"
+    style="height: 30px; padding: 0"
+    (click)="removeElement()"
+  >
     Remove
   </button>
 </li>

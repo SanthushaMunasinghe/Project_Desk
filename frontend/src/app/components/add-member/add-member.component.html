@@ -1,6 +1,6 @@
 <div class="card-header">
   <h4>Members</h4>
-  <h6>(10)</h6>
+  <h6>{{ userEmailsService.getLength() }}</h6>
 </div>
 <div class="card-body">
   <form [formGroup]="addEmailForm" (ngSubmit)="onSubmit()">
@@ -10,7 +10,7 @@
       </p>
     </div>
     <div class="mb-3">
-      <label for="members" class="form-label">Add Members</label>
+      <label for="members" class="form-label">Add Members (Maximum 10)</label>
       <div style="display: flex; gap: 20px">
         <input type="email" class="form-control" formControlName="email" />
         <button type="submit" class="btn btn-dark">Add</button>
@@ -19,8 +19,8 @@
   </form>
   <ul class="list-group">
     <app-member
-      *ngFor="let userEmail of userEmails"
-      [userEmail]="userEmail"
+      *ngFor="let email of userEmailsService.getEmails()"
+      [userEmail]="email"
     ></app-member>
   </ul>
 </div>

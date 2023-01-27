@@ -7,6 +7,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { UserEmailsService } from './user-emails.service';
+import { NewProjectService } from './new-project.service';
+
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { ProjectPageComponent } from './project-page/project-page.component';
@@ -53,7 +56,7 @@ import { MemberComponent } from './components/member/member.component';
     ReactiveFormsModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [UserEmailsService, NewProjectService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

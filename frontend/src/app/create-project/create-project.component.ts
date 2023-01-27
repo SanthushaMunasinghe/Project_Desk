@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 
 import { FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+
+import { UserEmailsService } from '../user-emails.service';
+import { NewProjectService } from '../new-project.service';
 
 import { faCircleUser } from '@fortawesome/free-regular-svg-icons';
 
@@ -23,18 +25,20 @@ export class CreateProjectComponent {
 
   userIcon = faCircleUser;
 
-  loginForm = this.formBuilder.group({
+  addProjectForm = this.formBuilder.group({
     title: '',
     description: '',
   });
 
   submitErrors: string[] = [''];
+  submitSuccess: string = '';
 
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router,
     private route: ActivatedRoute,
-    private http: HttpClient
+    private http: HttpClient,
+    private userEmailsService: UserEmailsService,
+    private newProjectService: NewProjectService
   ) {}
 
   ngOnInit() {
@@ -49,5 +53,42 @@ export class CreateProjectComponent {
         console.log(error);
       }
     );
+
+    this.userEmailsService.clearEmails();
+  }
+
+  onSubmit(): void {
+    this.submitErrors = [];
+
+    if (
+      !this.addProjectForm.value.title ||
+      !this.addProjectForm.value.description
+    ) {
+      this.submitErrors.push('Fill All Fields');
+    }
+
+    if (this.submitErrors.length == 0) {
+      const project = {
+        title: this.addProjectForm.value.title,
+        description: this.addProjectForm.value.description,
+        admin: this.userEmail,
+        members: {},
+      };
+
+      // Check if project title already exists
+      this.http.get<any>(`/api/projects/title/${project.title}`).subscribe(
+        (response) => {
+          console.log(response);
+          this.submitSuccess = 'Success!';
+        },
+        (error) => {
+          this.submitErrors.push(error.error.error);
+        }
+      );
+
+      this.newProjectService.assignToProject(project);
+
+      console.log(this.newProjectService.getProject());
+    }
   }
 }

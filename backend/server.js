@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const User = require("./models/User");
+const Project = require("./models/Project");
 const bcrypt = require("bcrypt");
 
 require("dotenv").config();
@@ -50,12 +51,29 @@ app.get("/api/users/email/:email", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.params.email });
     if (!user) {
-      res.status(404).json({ message: "User not found" });
+      res
+        .status(404)
+        .json({ message: "User not found", error: "User not found" });
     } else {
       res.status(200).json({ email: user.email });
     }
   } catch (err) {
     res.status(400).json({ message: err.message });
+  }
+});
+
+//Get Project Title by Title
+app.get("/api/projects/title/:title", async (req, res) => {
+  const { title } = req.params;
+
+  // Check if project title already exists
+  const existingProject = await Project.findOne({ title });
+  if (existingProject) {
+    return res
+      .status(400)
+      .json({ error: "Project with that title already exists" });
+  } else {
+    res.status(200).json({ message: "Successful!" });
   }
 });
 
