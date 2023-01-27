@@ -8,7 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { UserEmailsService } from './user-emails.service';
-import { NewProjectService } from './new-project.service';
+import { UserIdsService } from './user-ids.service';
 
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { LoginPageComponent } from './login-page/login-page.component';
@@ -56,7 +56,7 @@ import { MemberComponent } from './components/member/member.component';
     ReactiveFormsModule,
     HttpClientModule,
   ],
-  providers: [UserEmailsService, NewProjectService],
+  providers: [UserEmailsService, UserIdsService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

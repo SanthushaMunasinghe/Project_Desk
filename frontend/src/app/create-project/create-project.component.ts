@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 import { UserEmailsService } from '../user-emails.service';
-import { NewProjectService } from '../new-project.service';
+import { UserIdsService } from '../user-ids.service';
 
 import { faCircleUser } from '@fortawesome/free-regular-svg-icons';
 
@@ -30,6 +30,8 @@ export class CreateProjectComponent {
     description: '',
   });
 
+  project: object = {};
+
   submitErrors: string[] = [''];
   submitSuccess: string = '';
 
@@ -38,7 +40,7 @@ export class CreateProjectComponent {
     private route: ActivatedRoute,
     private http: HttpClient,
     private userEmailsService: UserEmailsService,
-    private newProjectService: NewProjectService
+    private userIdsService: UserIdsService
   ) {}
 
   ngOnInit() {
@@ -55,6 +57,7 @@ export class CreateProjectComponent {
     );
 
     this.userEmailsService.clearEmails();
+    this.userIdsService.clearIds();
   }
 
   onSubmit(): void {
@@ -71,8 +74,8 @@ export class CreateProjectComponent {
       const project = {
         title: this.addProjectForm.value.title,
         description: this.addProjectForm.value.description,
-        admin: this.userEmail,
-        members: {},
+        admin: this.userId,
+        members: this.userIdsService.getIds(),
       };
 
       // Check if project title already exists
@@ -80,15 +83,13 @@ export class CreateProjectComponent {
         (response) => {
           console.log(response);
           this.submitSuccess = 'Success!';
+          this.project = project;
+          // console.log(this.project);
         },
         (error) => {
           this.submitErrors.push(error.error.error);
         }
       );
-
-      this.newProjectService.assignToProject(project);
-
-      console.log(this.newProjectService.getProject());
     }
   }
 }

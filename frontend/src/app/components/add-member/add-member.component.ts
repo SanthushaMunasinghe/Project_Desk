@@ -3,10 +3,12 @@ import { FormBuilder } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
 import { UserEmailsService } from '../../user-emails.service';
+import { UserIdsService } from 'src/app/user-ids.service';
 
 interface UserResponse {
   user: any;
   email: string;
+  id: string;
 }
 
 @Component({
@@ -26,7 +28,8 @@ export class AddMemberComponent {
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    public userEmailsService: UserEmailsService
+    public userEmailsService: UserEmailsService,
+    public userIdsService: UserIdsService
   ) {}
 
   onSubmit(): void {
@@ -53,6 +56,8 @@ export class AddMemberComponent {
             this.findErrors.push('User already exists!');
           } else {
             this.userEmailsService.addEmail(res.email);
+            this.userIdsService.addId(res.id);
+            console.log(this.userIdsService.getIds());
           }
         },
         (error) => {

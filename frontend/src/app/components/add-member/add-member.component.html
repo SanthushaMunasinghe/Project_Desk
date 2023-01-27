@@ -19,8 +19,9 @@
   </form>
   <ul class="list-group">
     <app-member
-      *ngFor="let email of userEmailsService.getEmails()"
+      *ngFor="let email of userEmailsService.getEmails(); let i = index"
       [userEmail]="email"
+      [userId]="userIdsService.getIds()[i]"
     ></app-member>
   </ul>
 </div>

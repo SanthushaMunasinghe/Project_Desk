@@ -46,7 +46,7 @@ app.get("/api/users/:id", async (req, res) => {
   }
 });
 
-//Get User email by email
+//Get User email amd id by email
 app.get("/api/users/email/:email", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.params.email });
@@ -55,7 +55,7 @@ app.get("/api/users/email/:email", async (req, res) => {
         .status(404)
         .json({ message: "User not found", error: "User not found" });
     } else {
-      res.status(200).json({ email: user.email });
+      res.status(200).json({ email: user.email, id: user._id });
     }
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -124,6 +124,20 @@ app.post("/api/users", async (req, res) => {
 });
 
 //Add New Project
+app.post("/api/projects", async (req, res) => {
+  try {
+    const project = new Project({
+      title: req.body.title,
+      description: req.body.description,
+      admin: req.body.admin,
+      members: req.body.members,
+    });
+    await project.save();
+    res.status(201).json({ message: "success" });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
 
 //Server Setup
 const port = process.env.PORT || 3000;

@@ -45,12 +45,14 @@
         ></fa-icon>
         <h5>{{ headingTxt }}</h5>
       </div>
-      <a
-        [routerLink]="['/create', id]"
+      <p class="text-danger">{{ errorTxt }}</p>
+      <button
+        (click)="onClick()"
         class="btn btn-dark bg-green"
         style="margin-bottom: 20px"
-        >{{ btnTxt }}</a
       >
+        {{ btnTxt }}
+      </button>
     </div>
   </div>
 </section>
