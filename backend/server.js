@@ -77,6 +77,48 @@ app.get("/api/projects/title/:title", async (req, res) => {
   }
 });
 
+//Get Project By Admin Id
+app.get("/api/projects/admin/:userId", async (req, res) => {
+  try {
+    const projects = await Project.find({ admin: req.params.userId });
+    if (!projects) {
+      res.status(404).json({ message: "No projects found" });
+    } else {
+      res.status(200).json(projects);
+    }
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+//Get Projects by UserId where UserId included in members
+app.get("/api/projects/:userId", async (req, res) => {
+  try {
+    const projects = await Project.find({ members: req.params.userId });
+    if (!projects) {
+      res.status(404).json({ message: "No projects found" });
+    } else {
+      res.status(200).json(projects);
+    }
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+//Get Project By Id
+app.get("/api/project/:id", async (req, res) => {
+  try {
+    const project = await Project.findById(req.params.id);
+    if (!project) {
+      res.status(404).json({ message: "Project not found" });
+    } else {
+      res.status(200).json({ id: project.id, title: project.title });
+    }
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
 //User Login
 app.post("/api/login", async (req, res) => {
   try {
@@ -134,6 +176,20 @@ app.post("/api/projects", async (req, res) => {
     });
     await project.save();
     res.status(201).json({ message: "success" });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+//Delete Project
+app.delete("/api/projects/:id", async (req, res) => {
+  try {
+    const project = await Project.findByIdAndDelete(req.params.id);
+    if (!project) {
+      res.status(404).json({ message: "Project not found" });
+    } else {
+      res.status(200).json({ message: "Project deleted successfully" });
+    }
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

@@ -5,36 +5,17 @@ import { HttpClient } from '@angular/common/http';
 import { faTable } from '@fortawesome/free-solid-svg-icons';
 
 interface Project {
+  _id: string;
   title: string;
   description: string;
-  memberCount: string;
+  admin: string;
+  members: [];
 }
 
 interface UserResponse {
   user: any;
   email: string;
 }
-
-const DUMMY_ProjectS: Project[] = [
-  {
-    title: 'Title 1',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, a.',
-    memberCount: '5',
-  },
-  {
-    title: 'Title 2',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, a.',
-    memberCount: '4',
-  },
-  {
-    title: 'Title 1',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, a.',
-    memberCount: '10',
-  },
-];
 
 @Component({
   selector: 'app-dashboard',
@@ -43,7 +24,8 @@ const DUMMY_ProjectS: Project[] = [
 })
 export class DashboardComponent {
   tableIcon = faTable;
-  projects: Project[] = DUMMY_ProjectS;
+  myProjects: Project[] = [];
+  invitedProjects: Project[] = [];
   userEmail: string = '';
   userId: string = '';
 
@@ -56,6 +38,25 @@ export class DashboardComponent {
       (res) => {
         console.log(res);
         this.userEmail = res.email;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    this.http.get<Project[]>(`/api/projects/admin/${userId}`).subscribe(
+      (response) => {
+        this.myProjects = response;
+        console.log(this.myProjects);
+      },
+      (error) => {
+        console.log(error.error);
+      }
+    );
+
+    this.http.get<any>(`/api/projects/${userId}`).subscribe(
+      (response) => {
+        this.invitedProjects = response;
       },
       (error) => {
         console.log(error);

@@ -14,8 +14,8 @@
       {{ projectDescription }}
     </p>
     <div style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 1em">
-      <a href="/project" class="btn btn-dark bg-green">Open</a>
-      <button class="btn btn-danger">Delete</button>
+      <a (click)="onClick()" class="btn btn-dark bg-green">Open</a>
+      <button class="btn btn-danger" (click)="deleteProject()">Delete</button>
     </div>
   </div>
 </div>

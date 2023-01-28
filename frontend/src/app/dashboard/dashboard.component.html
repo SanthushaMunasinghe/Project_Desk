@@ -10,6 +10,12 @@
     class="container"
     style="display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 20px"
   >
+    <div class="card bg-dark text-white">
+      <h1 style="margin: 1em">My Projects</h1>
+    </div>
+    <div class="card bg-dark text-white">
+      <h1 style="margin: 1em">Invited Projects</h1>
+    </div>
     <div
       style="
         display: grid;
@@ -18,10 +24,12 @@
       "
     >
       <app-project-card
-        *ngFor="let project of projects"
+        *ngFor="let project of myProjects"
+        [projectId]="project._id"
         [projectTitle]="project.title"
         [projectDescription]="project.description"
-        [projectMemberCount]="project.memberCount"
+        [projectMemberCount]="project.members.length"
+        [userId]="userId"
       ></app-project-card>
     </div>
     <div
@@ -32,10 +40,12 @@
       "
     >
       <app-project-card
-        *ngFor="let project of projects"
+        *ngFor="let project of invitedProjects"
+        [projectId]="project._id"
         [projectTitle]="project.title"
         [projectDescription]="project.description"
-        [projectMemberCount]="project.memberCount"
+        [projectMemberCount]="project.members.length"
+        [userId]="userId"
       ></app-project-card>
     </div>
   </div>

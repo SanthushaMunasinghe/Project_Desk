@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 import { faTable } from '@fortawesome/free-solid-svg-icons';
 
@@ -8,23 +10,15 @@ interface Task {
   task_status: string;
 }
 
-const DUMMY_TASKS: Task[] = [
-  {
-    task_title: 'Task 1 Title',
-    task_description: 'Task 1 Description',
-    task_status: 'In Progress',
-  },
-  {
-    task_title: 'Task 2 Title',
-    task_description: 'Task 2 Description',
-    task_status: 'Done',
-  },
-  {
-    task_title: 'Task 3 Title',
-    task_description: 'Task 3 Description',
-    task_status: 'In Progress',
-  },
-];
+interface UserResponse {
+  user: any;
+  email: string;
+}
+
+interface ProjectResponse {
+  id: string;
+  title: string;
+}
 
 @Component({
   selector: 'app-project-page',
@@ -34,8 +28,39 @@ const DUMMY_TASKS: Task[] = [
 export class ProjectPageComponent {
   tableIcon = faTable;
 
-  userEmail: string = 'santhusha@gmail.com';
-  projectTitle: string = 'Title1';
+  userId: string = '';
+  userEmail: string = '';
+  projectTitle: string = '';
+  projectId: string = '';
 
-  projectTasks: Task[] = DUMMY_TASKS;
+  projectTasks: Task[] = [];
+
+  constructor(private route: ActivatedRoute, private http: HttpClient) {}
+
+  ngOnInit() {
+    const userId = this.route.snapshot.paramMap.get('id');
+    this.userId = userId != null ? userId : this.userId;
+    this.http.get<UserResponse>(`/api/users/${userId}`).subscribe(
+      (res) => {
+        console.log(res);
+        this.userEmail = res.email;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    const projectId = this.route.snapshot.paramMap.get('projectid');
+    this.userId = userId != null ? userId : this.userId;
+    this.http.get<ProjectResponse>(`/api/project/${projectId}`).subscribe(
+      (res) => {
+        console.log(res);
+        this.projectTitle = res.title;
+        this.projectId = res.id;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
 }

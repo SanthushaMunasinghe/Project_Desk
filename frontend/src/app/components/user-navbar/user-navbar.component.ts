@@ -21,8 +21,11 @@ export class UserNavbarComponent {
   @Input() linkTxt: string = '';
 
   @Input() id: string = '';
+  @Input() id2: string = '';
 
   @Input() isSave: boolean = false;
+
+  @Input() isId2: boolean = false;
 
   @Input() btnTxt: string = '';
 
@@ -40,6 +43,7 @@ export class UserNavbarComponent {
         this.http.post('/api/projects', this.submitObject).subscribe(
           (response) => {
             console.log(response);
+            this.router.navigate([this.linkTxt, this.id]);
           },
           (error) => {
             console.log(error);
@@ -48,9 +52,12 @@ export class UserNavbarComponent {
 
         console.log(this.submitObject);
       }
-      // this.router.navigate([this.linkTxt, this.id]);
     } else {
-      this.router.navigate([this.linkTxt, this.id]);
+      if (this.isId2) {
+        this.router.navigate([this.linkTxt, this.id, this.id2]);
+      } else {
+        this.router.navigate([this.linkTxt, this.id]);
+      }
     }
   }
 }
