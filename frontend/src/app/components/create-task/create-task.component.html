@@ -1,12 +1,20 @@
 <div class="card bg-light">
-  <form class="form-control">
+  <form class="form-control" [formGroup]="addTaskForm" (ngSubmit)="onSubmit()">
     <div class="mb-3">
       <label for="Task Title" class="form-label">Task Title</label>
-      <input type="text" class="form-control" />
+      <input type="text" class="form-control" formControlName="title" />
     </div>
     <div class="mb-3">
       <label for="Task Description" class="form-label">Task Description</label>
-      <input type="text" class="form-control" />
+      <input type="text" class="form-control" formControlName="description" />
+    </div>
+    <div class="mb-3">
+      <p class="text-danger" *ngFor="let error of submitErrors">
+        {{ error }}
+      </p>
+      <p class="text-success">
+        {{ submitSuccess }}
+      </p>
     </div>
     <div style="display: grid; place-items: center">
       <button type="submit" class="btn btn-dark" style="width: 200px">

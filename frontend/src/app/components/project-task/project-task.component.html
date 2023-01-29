@@ -12,8 +12,29 @@
       {{ taskDescription }}
     </p>
     <div class="mb-3">
-      <label for="formFile" class="form-label">Upload File</label>
-      <input class="form-control" type="file" id="formFile" />
+      <form>
+        <label for="formFile" class="form-label">Upload File</label>
+        <p class="text-success">{{ errorTxt }}</p>
+        <div
+          style="display: grid; grid-template-columns: 3fr 1fr; grid-gap: 10px"
+        >
+          <input
+            class="form-control"
+            type="file"
+            id="formFile"
+            (change)="onFileChange($event)"
+          />
+          <button class="btn btn-dark" (click)="onSubmit()">Submit</button>
+        </div>
+      </form>
+      <button
+        class="btn btn-dark"
+        style="margin-top: 1em"
+        *ngIf="taskFile"
+        (click)="downloadFile()"
+      >
+        Download
+      </button>
     </div>
   </div>
 </div>

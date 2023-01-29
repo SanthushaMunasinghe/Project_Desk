@@ -5,9 +5,12 @@ import { HttpClient } from '@angular/common/http';
 import { faTable } from '@fortawesome/free-solid-svg-icons';
 
 interface Task {
-  task_title: string;
-  task_description: string;
-  task_status: string;
+  _id: string;
+  title: string;
+  description: string;
+  file: string;
+  status: string;
+  projectId: string;
 }
 
 interface UserResponse {
@@ -51,7 +54,7 @@ export class ProjectPageComponent {
     );
 
     const projectId = this.route.snapshot.paramMap.get('projectid');
-    this.userId = userId != null ? userId : this.userId;
+    this.projectId = projectId != null ? projectId : this.projectId;
     this.http.get<ProjectResponse>(`/api/project/${projectId}`).subscribe(
       (res) => {
         console.log(res);
@@ -60,6 +63,16 @@ export class ProjectPageComponent {
       },
       (error) => {
         console.log(error);
+      }
+    );
+
+    this.http.get<Task[]>(`/api/tasks/${projectId}`).subscribe(
+      (response) => {
+        this.projectTasks = response;
+        console.log(this.projectTasks);
+      },
+      (error) => {
+        console.log(error.error);
       }
     );
   }

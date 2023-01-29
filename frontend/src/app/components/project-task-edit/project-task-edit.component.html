@@ -3,8 +3,16 @@
     class="card-header"
     style="display: grid; grid-template-columns: 5fr 1fr"
   >
-    <p>Task {{ taskIndex }}</p>
-    <button class="btn btn-danger">Remove</button>
+    <p>Task {{ taskIndex + 1 }}</p>
+    <div
+      style="display: grid; grid-template-columns: 1fr 1fr 1fr; grid-gap: 5px"
+    >
+      <p>{{ message }}</p>
+      <button class="btn bg-green text-white" (click)="completeProject()">
+        Complete
+      </button>
+      <button class="btn btn-danger" (click)="deleteProject()">Remove</button>
+    </div>
   </div>
   <div class="card-body">
     <h5 class="card-title">{{ taskTitle }}</h5>

@@ -1,7 +1,10 @@
 const express = require("express");
+const path = require("path");
+const multer = require("multer");
 const mongoose = require("mongoose");
 const User = require("./models/User");
 const Project = require("./models/Project");
+const Task = require("./models/Task");
 const bcrypt = require("bcrypt");
 
 require("dotenv").config();
@@ -27,6 +30,17 @@ const connectDB = async () => {
 };
 
 connectDB();
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./assets");
+  },
+  filename: function (req, file, cb) {
+    cb(null, req.body.taskId + "-" + file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
 
 app.get("/", (req, res) => {
   res.send("Server is running");
@@ -86,6 +100,36 @@ app.get("/api/projects/admin/:userId", async (req, res) => {
     } else {
       res.status(200).json(projects);
     }
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+//Get Task By Project Id
+app.get("/api/tasks/:projectId", async (req, res) => {
+  try {
+    const tasks = await Task.find({ projectId: req.params.projectId });
+    if (!tasks) {
+      res.status(404).json({ message: "No tasks found" });
+    } else {
+      res.status(200).json(tasks);
+    }
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+//Update Task Status
+app.put("/api/task/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const task = await Task.findById(id);
+    if (!task) {
+      res.status(404).json({ message: "Task not found" });
+    }
+    task.status = req.body.status;
+    await task.save();
+    res.status(200).json({ message: "Task status updated successfully" });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -181,6 +225,62 @@ app.post("/api/projects", async (req, res) => {
   }
 });
 
+//Add Task
+app.post("/api/task", async (req, res) => {
+  const { title, description, file, status, projectId } = req.body;
+
+  // Check if task title already exists
+  const existingProject = await Task.findOne({ title });
+  if (existingProject) {
+    return res
+      .status(400)
+      .json({ error: "Project with that title already exists" });
+  } else {
+    const newProject = new Task({
+      title,
+      description,
+      file,
+      status,
+      projectId,
+    });
+    await newProject.save();
+    res.status(201).json({ message: "Project saved successfully!" });
+  }
+});
+
+//Upload Task File
+app.post("/api/task/upload", upload.single("file"), async (req, res) => {
+  try {
+    const taskId = req.body.taskId;
+    const task = await Task.findById(taskId);
+
+    if (!task) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+
+    task.file = req.file.path;
+    task.status = "In Review";
+    await task.save();
+
+    res
+      .status(200)
+      .json({ message: "File uploaded successfully", file: task.file });
+  } catch (error) {
+    res.status(500).json({ message: "Error uploading file", error });
+  }
+});
+
+//Download task file
+app.get("/api/task/download/:fileName", async (req, res) => {
+  try {
+    const fileName = req.params.fileName;
+    const filePath = path.join(__dirname, "assets", fileName);
+    res.download(filePath);
+  } catch (error) {
+    res.status(500).json({ message: "Error downloading file", error });
+  }
+});
+
 //Delete Project
 app.delete("/api/projects/:id", async (req, res) => {
   try {
@@ -189,6 +289,20 @@ app.delete("/api/projects/:id", async (req, res) => {
       res.status(404).json({ message: "Project not found" });
     } else {
       res.status(200).json({ message: "Project deleted successfully" });
+    }
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+//Delete Task
+app.delete("/api/tasks/:id", async (req, res) => {
+  try {
+    const task = await Task.findByIdAndDelete(req.params.id);
+    if (!task) {
+      res.status(404).json({ message: "Task not found" });
+    } else {
+      res.status(200).json({ message: "Task deleted successfully" });
     }
   } catch (err) {
     res.status(400).json({ message: err.message });

@@ -3,7 +3,7 @@
   [headingTxt]="projectTitle"
   [id]="userId"
   [id2]="projectId"
-  [btnTxt]="'Save'"
+  [btnTxt]="'Done'"
   [linkTxt]="'/project'"
   [isId2]="true"
 ></app-user-navbar>
@@ -16,13 +16,14 @@
       <app-project-task-edit
         style="margin: 10px"
         *ngFor="let projectTask of projectTasks"
-        [taskTitle]="projectTask.task_title"
-        [taskDescription]="projectTask.task_description"
-        [taskIndex]="(projectTasks.indexOf(projectTask) + 1).toString()"
+        [taskTitle]="projectTask.title"
+        [taskDescription]="projectTask.description"
+        [taskIndex]="projectTasks.indexOf(projectTask)"
+        [taskId]="projectTask._id"
       ></app-project-task-edit>
     </div>
     <div class="card bg-dark" style="padding: 1em; height: 16rem; width: 100%">
-      <app-create-task></app-create-task>
+      <app-create-task [projectId]="projectId"></app-create-task>
     </div>
   </div>
 </section>

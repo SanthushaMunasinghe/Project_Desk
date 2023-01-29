@@ -16,10 +16,12 @@
       <app-project-task
         style="margin: 10px"
         *ngFor="let projectTask of projectTasks"
-        [taskTitle]="projectTask.task_title"
-        [taskDescription]="projectTask.task_description"
-        [taskStatus]="projectTask.task_status"
+        [taskTitle]="projectTask.title"
+        [taskDescription]="projectTask.description"
+        [taskStatus]="projectTask.status"
         [taskIndex]="(projectTasks.indexOf(projectTask) + 1).toString()"
+        [taskId]="projectTask._id"
+        [taskFile]="projectTask.file"
       ></app-project-task>
     </div>
     <div class="card bg-dark" style="padding: 1em; height: 33rem; width: 100%">
