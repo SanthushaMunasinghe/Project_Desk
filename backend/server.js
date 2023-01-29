@@ -156,7 +156,9 @@ app.get("/api/project/:id", async (req, res) => {
     if (!project) {
       res.status(404).json({ message: "Project not found" });
     } else {
-      res.status(200).json({ id: project.id, title: project.title });
+      res
+        .status(200)
+        .json({ id: project.id, title: project.title, admin: project.admin });
     }
   } catch (err) {
     res.status(400).json({ message: err.message });

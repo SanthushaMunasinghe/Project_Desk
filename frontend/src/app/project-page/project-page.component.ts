@@ -21,6 +21,7 @@ interface UserResponse {
 interface ProjectResponse {
   id: string;
   title: string;
+  admin: string;
 }
 
 @Component({
@@ -35,6 +36,10 @@ export class ProjectPageComponent {
   userEmail: string = '';
   projectTitle: string = '';
   projectId: string = '';
+  projectAdmin: string = '';
+
+  navLink: string = '';
+  navTxt: string = '';
 
   projectTasks: Task[] = [];
 
@@ -60,6 +65,15 @@ export class ProjectPageComponent {
         console.log(res);
         this.projectTitle = res.title;
         this.projectId = res.id;
+        this.projectAdmin = res.admin;
+
+        if (this.projectAdmin == this.userId) {
+          this.navLink = '/edit';
+          this.navTxt = 'Edit';
+        } else {
+          this.navLink = '/project';
+          this.navTxt = '-';
+        }
       },
       (error) => {
         console.log(error);
