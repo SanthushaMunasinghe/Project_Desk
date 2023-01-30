@@ -2,15 +2,32 @@ const express = require("express");
 const path = require("path");
 const multer = require("multer");
 const mongoose = require("mongoose");
-const User = require("./models/User");
-const Project = require("./models/Project");
 const Task = require("./models/Task");
-const bcrypt = require("bcrypt");
+
+const newUser = require("./components/post-user");
+const userLogin = require("./components/user-login");
+const userEmail = require("./components/user-email");
+const userData = require("./components/user-data");
+
+const newProject = require("./components/post-project");
+const projectTitle = require("./components/project-title");
+const adminProjectData = require("./components/admin-project-data");
+const memberProjectData = require("./components/member-project-data");
+const projectData = require("./components/project-data");
+const deleteProject = require("./components/delete-project");
+
+const newTask = require("./components/post-task");
+const taskData = require("./components/task-data");
+const updateTaskStatus = require("./components/update-task-status");
+const deleteTask = require("./components/delete-task");
 
 require("dotenv").config();
 
 const app = express();
 app.use(express.json());
+
+const server = require("http").Server(app);
+const io = require("socket.io")(server);
 
 //DB Connect
 const dbLink = process.env.DB_LINK;
@@ -46,209 +63,52 @@ app.get("/", (req, res) => {
   res.send("Server is running");
 });
 
-//Get User email by id
-app.get("/api/users/:id", async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-    if (!user) {
-      res.status(404).json({ message: "User not found" });
-    } else {
-      res.status(200).json({ email: user.email });
-    }
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
+// io.on("connection", (socket) => {
+//   console.log("A user connected");
+// });
+
+//Server Setup
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => {
+  console.log(`Server started on port ${port}`);
 });
+
+//Get User email by id
+app.get("/api/users/:id", userEmail);
 
 //Get User email amd id by email
-app.get("/api/users/email/:email", async (req, res) => {
-  try {
-    const user = await User.findOne({ email: req.params.email });
-    if (!user) {
-      res
-        .status(404)
-        .json({ message: "User not found", error: "User not found" });
-    } else {
-      res.status(200).json({ email: user.email, id: user._id });
-    }
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
+app.get("/api/users/email/:email", userData);
 
 //Get Project Title by Title
-app.get("/api/projects/title/:title", async (req, res) => {
-  const { title } = req.params;
-
-  // Check if project title already exists
-  const existingProject = await Project.findOne({ title });
-  if (existingProject) {
-    return res
-      .status(400)
-      .json({ error: "Project with that title already exists" });
-  } else {
-    res.status(200).json({ message: "Successful!" });
-  }
-});
+app.get("/api/projects/title/:title", projectTitle);
 
 //Get Project By Admin Id
-app.get("/api/projects/admin/:userId", async (req, res) => {
-  try {
-    const projects = await Project.find({ admin: req.params.userId });
-    if (!projects) {
-      res.status(404).json({ message: "No projects found" });
-    } else {
-      res.status(200).json(projects);
-    }
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
+app.get("/api/projects/admin/:userId", adminProjectData);
 
 //Get Task By Project Id
-app.get("/api/tasks/:projectId", async (req, res) => {
-  try {
-    const tasks = await Task.find({ projectId: req.params.projectId });
-    if (!tasks) {
-      res.status(404).json({ message: "No tasks found" });
-    } else {
-      res.status(200).json(tasks);
-    }
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
+app.get("/api/tasks/:projectId", taskData);
 
 //Update Task Status
-app.put("/api/task/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const task = await Task.findById(id);
-    if (!task) {
-      res.status(404).json({ message: "Task not found" });
-    }
-    task.status = req.body.status;
-    await task.save();
-    res.status(200).json({ message: "Task status updated successfully" });
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
+app.put("/api/task/:id", updateTaskStatus);
 
 //Get Projects by UserId where UserId included in members
-app.get("/api/projects/:userId", async (req, res) => {
-  try {
-    const projects = await Project.find({ members: req.params.userId });
-    if (!projects) {
-      res.status(404).json({ message: "No projects found" });
-    } else {
-      res.status(200).json(projects);
-    }
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
+app.get("/api/projects/:userId", memberProjectData);
 
 //Get Project By Id
-app.get("/api/project/:id", async (req, res) => {
-  try {
-    const project = await Project.findById(req.params.id);
-    if (!project) {
-      res.status(404).json({ message: "Project not found" });
-    } else {
-      res
-        .status(200)
-        .json({ id: project.id, title: project.title, admin: project.admin });
-    }
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
+app.get("/api/project/:id", projectData);
 
-//User Login
-app.post("/api/login", async (req, res) => {
-  try {
-    const user = await User.findOne({ email: req.body.email });
-    if (!user) {
-      res.status(404).json({ message: "User not found" });
-    } else {
-      const isPasswordCorrect = await bcrypt.compareSync(
-        req.body.password,
-        user.password
-      );
-      if (!isPasswordCorrect) {
-        res.status(401).json({ message: "Incorrect password" });
-      } else {
-        // create a JWT token here and send it as a response
-        res
-          .status(200)
-          .json({ message: "Logged in successfully", userId: user._id });
-      }
-    }
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
+// //User Login
+app.post("/api/login", userLogin);
 
 //Add new user
-app.post("/api/users", async (req, res) => {
-  try {
-    const existingUser = await User.findOne({ email: req.body.email });
-    if (existingUser) {
-      res.status(400).json({ message: "Email already exists" });
-    } else {
-      const salt = await bcrypt.genSalt();
-      const hashedPassword = await bcrypt.hash(req.body.password, salt);
-      const user = new User({
-        email: req.body.email,
-        password: hashedPassword,
-      });
-      const newUser = await user.save();
-      res.status(201).json({ user: newUser, userId: newUser._id });
-    }
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
+app.post("/api/users", newUser);
 
 //Add New Project
-app.post("/api/projects", async (req, res) => {
-  try {
-    const project = new Project({
-      title: req.body.title,
-      description: req.body.description,
-      admin: req.body.admin,
-      members: req.body.members,
-    });
-    await project.save();
-    res.status(201).json({ message: "success" });
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
+app.post("/api/projects", newProject);
 
 //Add Task
-app.post("/api/task", async (req, res) => {
-  const { title, description, file, status, projectId } = req.body;
-
-  // Check if task title already exists
-  const existingProject = await Task.findOne({ title });
-  if (existingProject) {
-    return res
-      .status(400)
-      .json({ error: "Project with that title already exists" });
-  } else {
-    const newProject = new Task({
-      title,
-      description,
-      file,
-      status,
-      projectId,
-    });
-    await newProject.save();
-    res.status(201).json({ message: "Project saved successfully!" });
-  }
-});
+app.post("/api/task", newTask);
 
 //Upload Task File
 app.post("/api/task/upload", upload.single("file"), async (req, res) => {
@@ -284,36 +144,7 @@ app.get("/api/task/download/:fileName", async (req, res) => {
 });
 
 //Delete Project
-app.delete("/api/projects/:id", async (req, res) => {
-  try {
-    const project = await Project.findByIdAndDelete(req.params.id);
-    if (!project) {
-      res.status(404).json({ message: "Project not found" });
-    } else {
-      res.status(200).json({ message: "Project deleted successfully" });
-    }
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
+app.delete("/api/projects/:id", deleteProject);
 
 //Delete Task
-app.delete("/api/tasks/:id", async (req, res) => {
-  try {
-    const task = await Task.findByIdAndDelete(req.params.id);
-    if (!task) {
-      res.status(404).json({ message: "Task not found" });
-    } else {
-      res.status(200).json({ message: "Task deleted successfully" });
-    }
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
-
-//Server Setup
-const port = process.env.PORT || 3000;
-
-app.listen(port, () => {
-  console.log(`Server started on port ${port}`);
-});
+app.delete("/api/tasks/:id", deleteTask);
