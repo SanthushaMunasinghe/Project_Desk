@@ -51,7 +51,11 @@
       placeholder="Type Your Message"
       class="form-control"
     />
-    <button class="btn btn-dark" style="margin-left: 5px">
+    <button
+      class="btn btn-dark"
+      style="margin-left: 5px"
+      (click)="sendMessage()"
+    >
       <fa-icon [icon]="sendIcon"></fa-icon>
     </button>
   </form>

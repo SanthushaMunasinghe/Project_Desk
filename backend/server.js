@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const multer = require("multer");
 const mongoose = require("mongoose");
+const Chat = require("./models/Chat");
 const Task = require("./models/Task");
 
 const newUser = require("./components/post-user");
@@ -26,8 +27,8 @@ require("dotenv").config();
 const app = express();
 app.use(express.json());
 
-const server = require("http").Server(app);
-const io = require("socket.io")(server);
+// const server = require("http").Server(app);
+const socketio = require("socket.io");
 
 //DB Connect
 const dbLink = process.env.DB_LINK;
@@ -70,10 +71,38 @@ app.get("/", (req, res) => {
 //Server Setup
 const port = process.env.PORT || 3000;
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`Server started on port ${port}`);
 });
 
+const io = socketio(server);
+
+io.on("connection", (socket) => {
+  console.log("A user connected");
+
+  socket.emit("test event", "here is some data");
+
+  // socket.on("sendMessage", (data) => {
+  //   console.log(`Received message: ${data.message} from user: ${data.userId}`);
+  //   const newChat = new Chat({
+  //     message: data.message,
+  //     userId: data.userId,
+  //   });
+
+  //   newChat.save((err, chat) => {
+  //     if (err) {
+  //       console.error(err);
+  //       return;
+  //     }
+
+  //     io.emit("receivedMessage", chat);
+  //   });
+  // });
+
+  socket.on("disconnect", () => {
+    console.log("A user disconnected");
+  });
+});
 //Get User email by id
 app.get("/api/users/:id", userEmail);
 
