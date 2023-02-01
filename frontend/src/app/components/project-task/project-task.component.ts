@@ -61,6 +61,7 @@ export class ProjectTaskComponent {
           } else if (event.type === HttpEventType.Response) {
             console.log(event);
             this.errorTxt = 'Uploaded';
+            location.reload();
           }
         },
         (err) => {

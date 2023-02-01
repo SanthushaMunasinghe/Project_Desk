@@ -2,60 +2,34 @@
   class="card text-bg-dark mb-3"
   style="width: 100%; height: 100%; overflow: hidden"
 >
-  <div class="card-header bg-green">Project Title Chat</div>
+  <div class="card-header bg-green">{{ projectTitle }} Chat</div>
   <div
     class="card-body"
     style="overflow: hidden; overflow-y: scroll; height: 22rem"
   >
     <div
       style="display: grid; grid-template-columns: 1fr 1fr; margin-top: 20px"
-      id="scrollspyHeading1"
-    >
-      <div class="card bg-light text-dark" style="padding: 10px">
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur,
-          temporibus.
-        </p>
-        <div
-          style="display: grid; grid-template-columns: 1fr 2fr; font-size: 10px"
-        >
-          <p>user_1</p>
-          <p>19.1.2023 10.44 pm</p>
-        </div>
-      </div>
-    </div>
-    <div
-      style="display: grid; grid-template-columns: 1fr 1fr; margin-top: 20px"
       id="scrollspyHeading2"
     >
-      <div></div>
-      <div class="card bg-light text-dark" style="padding: 10px">
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur,
-          temporibus.
-        </p>
-        <div
-          style="display: grid; grid-template-columns: 1fr 2fr; font-size: 10px"
-        >
-          <p>user_1</p>
-          <p>19.1.2023 10.44 pm</p>
-        </div>
-      </div>
+      <app-member-message></app-member-message>
+      <app-user-message></app-user-message>
     </div>
   </div>
-  <form class="form-control" style="display: flex; margin-top: 2rem">
+  <form
+    class="form-control"
+    style="display: flex; margin-top: 2rem"
+    [formGroup]="sendMessageForm"
+    (ngSubmit)="sendMessage()"
+  >
     <input
       type="text"
       name="message"
       id=""
       placeholder="Type Your Message"
       class="form-control"
+      formControlName="message"
     />
-    <button
-      class="btn btn-dark"
-      style="margin-left: 5px"
-      (click)="sendMessage()"
-    >
+    <button class="btn btn-dark" style="margin-left: 5px">
       <fa-icon [icon]="sendIcon"></fa-icon>
     </button>
   </form>

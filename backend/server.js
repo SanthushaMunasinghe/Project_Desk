@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const multer = require("multer");
 const mongoose = require("mongoose");
+const cors = require("cors");
 const Chat = require("./models/Chat");
 const Task = require("./models/Task");
 
@@ -22,11 +23,15 @@ const taskData = require("./components/task-data");
 const updateTaskStatus = require("./components/update-task-status");
 const deleteTask = require("./components/delete-task");
 
+const newMessage = require("./components/post-message");
+const chatData = require("./components/chat-data");
+
 require("dotenv").config();
 
 const app = express();
 app.use(express.json());
 
+app.use(cors());
 // const server = require("http").Server(app);
 const socketio = require("socket.io");
 
@@ -80,24 +85,22 @@ const io = socketio(server);
 io.on("connection", (socket) => {
   console.log("A user connected");
 
-  socket.emit("test event", "here is some data");
+  socket.on("sendMessage", (data) => {
+    console.log(`Received message: ${data.message} from user: ${data.userId}`);
+    const newChat = new Chat({
+      message: data.message,
+      userId: data.userId,
+    });
 
-  // socket.on("sendMessage", (data) => {
-  //   console.log(`Received message: ${data.message} from user: ${data.userId}`);
-  //   const newChat = new Chat({
-  //     message: data.message,
-  //     userId: data.userId,
-  //   });
+    newChat.save((err, chat) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
 
-  //   newChat.save((err, chat) => {
-  //     if (err) {
-  //       console.error(err);
-  //       return;
-  //     }
-
-  //     io.emit("receivedMessage", chat);
-  //   });
-  // });
+      io.emit("receivedMessage", chat);
+    });
+  });
 
   socket.on("disconnect", () => {
     console.log("A user disconnected");
@@ -127,6 +130,9 @@ app.get("/api/projects/:userId", memberProjectData);
 //Get Project By Id
 app.get("/api/project/:id", projectData);
 
+//Get Chat By Id
+app.get("/api/message/:id", chatData);
+
 // //User Login
 app.post("/api/login", userLogin);
 
@@ -138,6 +144,9 @@ app.post("/api/projects", newProject);
 
 //Add Task
 app.post("/api/task", newTask);
+
+//Add Message
+app.post("/api/message", newMessage);
 
 //Upload Task File
 app.post("/api/task/upload", upload.single("file"), async (req, res) => {

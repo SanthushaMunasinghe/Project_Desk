@@ -1,7 +1,9 @@
 import { Component, Input } from '@angular/core';
 
 import { faPaperPlane } from '@fortawesome/free-regular-svg-icons';
-import { WebsocketService } from 'src/app/websocket.service';
+
+import { FormBuilder } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-message',
@@ -11,18 +13,34 @@ import { WebsocketService } from 'src/app/websocket.service';
 export class MessageComponent {
   sendIcon = faPaperPlane;
 
+  sendMessageForm = this.formBuilder.group({
+    message: '',
+  });
+
+  @Input() projectTitle: string = '';
   @Input() userId: string = '';
   @Input() projectId: string = '';
 
-  constructor(private webSocketService: WebsocketService) {}
-
-  ngOnInit() {
-    this.webSocketService.listen('test event').subscribe((data) => {
-      console.log(data);
-    });
-  }
+  constructor(private formBuilder: FormBuilder, private http: HttpClient) {}
 
   sendMessage() {
-    // this.socket.emit('sendMessage', { message, userId });
+    const message = {
+      projectId: this.projectId,
+      message: this.sendMessageForm.value.message,
+      userId: this.userId,
+    };
+
+    console.log(message);
+
+    this.http.post('/api/message', message).subscribe(
+      (response) => {
+        console.log(response);
+        this.sendMessageForm.reset();
+        location.reload();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 }

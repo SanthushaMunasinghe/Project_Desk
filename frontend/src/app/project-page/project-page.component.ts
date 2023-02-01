@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 import { faTable } from '@fortawesome/free-solid-svg-icons';
+import { MessagesService } from '../messages.service';
 
 interface Task {
   _id: string;
@@ -24,6 +25,11 @@ interface ProjectResponse {
   admin: string;
 }
 
+interface ChatResponse {
+  projectId: string;
+  chats: object[];
+}
+
 @Component({
   selector: 'app-project-page',
   templateUrl: './project-page.component.html',
@@ -43,7 +49,11 @@ export class ProjectPageComponent {
 
   projectTasks: Task[] = [];
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) {}
+  constructor(
+    private route: ActivatedRoute,
+    private http: HttpClient,
+    public messageService: MessagesService
+  ) {}
 
   ngOnInit() {
     const userId = this.route.snapshot.paramMap.get('id');
@@ -83,10 +93,21 @@ export class ProjectPageComponent {
     this.http.get<Task[]>(`/api/tasks/${projectId}`).subscribe(
       (response) => {
         this.projectTasks = response;
-        console.log(this.projectTasks);
+        // console.log(this.projectTasks);
       },
       (error) => {
         console.log(error.error);
+      }
+    );
+
+    // this.messageService.clearMessages();
+
+    this.http.get(`/api/message/${projectId}`).subscribe(
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
       }
     );
   }

@@ -27,6 +27,8 @@ import { ProjectTaskEditComponent } from './components/project-task-edit/project
 import { CreateTaskComponent } from './components/create-task/create-task.component';
 import { AddMemberComponent } from './components/add-member/add-member.component';
 import { MemberComponent } from './components/member/member.component';
+import { UserMessageComponent } from './components/user-message/user-message.component';
+import { MemberMessageComponent } from './components/member-message/member-message.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,8 @@ import { MemberComponent } from './components/member/member.component';
     CreateTaskComponent,
     AddMemberComponent,
     MemberComponent,
+    UserMessageComponent,
+    MemberMessageComponent,
   ],
   imports: [
     BrowserModule,
